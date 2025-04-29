@@ -29,16 +29,13 @@ Source the environement
 ```bash
 source install/setup.bash
 ```
-The trigger source should be connected to line0 on the cameras (green wire on official M8 cable)
-
 ### Executing program
 
 Run the node  
 ```bash
 ros2 run image_processor image_processor 
 ```
-Make sure the trigger source is actually triggering the cameras  
-You can visualize the images on the topics depending on the configuration of the camera master
+You can visualize the images on the topics
 ```bash
 TODO
 
