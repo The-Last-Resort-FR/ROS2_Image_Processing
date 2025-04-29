@@ -3,7 +3,7 @@
 <package format="3">
   <name>image_processor</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Applies some image treatment</description>
   <maintainer email="camille.colimard@gmail.com">gpa2m</maintainer>
   <license>TheUnlicense</license>
 

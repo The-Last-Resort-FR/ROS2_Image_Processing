@@ -80,23 +80,15 @@ void ImageProcessor::ComputeDisparity() {
         32 * blockSize * blockSize,
         1, 10, 100, 32, cv::StereoSGBM::MODE_SGBM
     );
-    // cv::Ptr<cv::StereoSGBM> pSgbm = cv::StereoSGBM::create(
-        //     0, numDisparities, blockSize,
-        //     8 * blockSize * blockSize,
-        //     32 * blockSize * blockSize,
-        //     1, 10, 100, 32, cv::StereoSGBM::MODE_SGBM
-        // );
-    RCLCPP_INFO(this->get_logger(), "Computing disaprities");
+
     cv::Mat disparity_cpu;
     grayL_gpu.download(grayL_cpu);
     grayR_gpu.download(grayR_cpu);
     pSgbm_gpu->compute(grayL_cpu, grayR_cpu, disparity_cpu);
     disparity_cpu.convertTo(disparity_cpu, CV_32F, 1.0 / 16.0);
-    RCLCPP_INFO(this->get_logger(), "Computing disaprities DONE");
 
     cv::Mat disparity(disparity_cpu);
     cv::Mat dispVis;
-    //RCLCPP_INFO(this->get_logger(), "Visualizing disparities");
     cv::normalize(disparity, dispVis, 0, 255, cv::NORM_MINMAX);
     dispVis.convertTo(dispVis, CV_8U);
     cv::imshow("Disparity", dispVis);
