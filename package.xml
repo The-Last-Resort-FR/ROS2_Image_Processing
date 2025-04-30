@@ -4,7 +4,7 @@
   <name>image_processor</name>
   <version>0.0.0</version>
   <description>Applies some image treatment</description>
-  <maintainer email="camille.colimard@gmail.com">gpa2m</maintainer>
+  <maintainer email="camille.colimard@gmail.com">tlr</maintainer>
   <license>TheUnlicense</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

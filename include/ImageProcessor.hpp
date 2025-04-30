@@ -1,5 +1,17 @@
+/**
+ * @file ImageProcessor.hpp
+ * @author tlr
+ * @brief The class of a node that takes image from a topic, modify them and send them onto another topic
+ * @version 0.0.0
+ * @date 2025-04-30
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
+// Lib includes
 #include <rclcpp/rclcpp.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.hpp>
@@ -8,6 +20,7 @@
 #include <opencv2/cudaimgproc.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
 
+// ROS2 queue size
 constexpr uint8_t QUEUE_SIZE = 1;
 
 

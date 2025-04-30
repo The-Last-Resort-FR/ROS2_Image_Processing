@@ -1,5 +1,20 @@
+/**
+ * @file ImageProcessor.cpp
+ * @author tlr
+ * @brief Implements the ImageProcessor node
+ * @version 0.0.0
+ * @date 2025-04-30
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "ImageProcessor.hpp"
 
+/**
+ * @brief subscibes to and advertises topic as well as binding callbacks
+ * 
+ */
 ImageProcessor::ImageProcessor(): Node("image_processor"), mpIt(nullptr), mLeftMapsInitialized(false) {
     using std::placeholders::_1;
     mpIt = new image_transport::ImageTransport((std::shared_ptr<rclcpp::Node>)this);
@@ -17,10 +32,19 @@ ImageProcessor::ImageProcessor(): Node("image_processor"), mpIt(nullptr), mLeftM
     RCLCPP_INFO(this->get_logger(), "Image processor node started.");
 }
 
+/**
+ * @brief Destroy the Image Processor:: Image Processor object
+ * 
+ */
 ImageProcessor::~ImageProcessor() {
     delete mpIt;
 }
 
+/**
+ * @brief Remaps the image
+ * 
+ * @param msg Image
+ */
 void ImageProcessor::LeftCallback(const sensor_msgs::msg::Image::ConstSharedPtr& msg) {
     if(!mLeftMapsInitialized) return;
 
@@ -34,6 +58,11 @@ void ImageProcessor::LeftCallback(const sensor_msgs::msg::Image::ConstSharedPtr&
     ComputeDisparity();
 }
 
+/**
+ * @brief Remaps the image
+ * 
+ * @param msg image
+ */
 void ImageProcessor::RightCallback(const sensor_msgs::msg::Image::ConstSharedPtr& msg) {
     if(!mRightMapsInitialized) return;
     cv::Mat raw = cv_bridge::toCvCopy(msg, "bgr8")->image;
@@ -46,6 +75,12 @@ void ImageProcessor::RightCallback(const sensor_msgs::msg::Image::ConstSharedPtr
     ComputeDisparity();
 }
 
+/**
+ * @brief Converts msg to an opencv grayscale image
+ * 
+ * @param msg image
+ * @return cv::Mat 
+ */
 cv::Mat ImageProcessor::ConvertToMat(const sensor_msgs::msg::Image::ConstSharedPtr& msg) {
     try {
         return cv_bridge::toCvShare(msg, "bgr8")->image;
@@ -55,6 +90,10 @@ cv::Mat ImageProcessor::ConvertToMat(const sensor_msgs::msg::Image::ConstSharedP
     }
 }
 
+/**
+ * @brief Supposedly compute a depth map
+ * 
+ */
 void ImageProcessor::ComputeDisparity() {
     //RCLCPP_INFO(this->get_logger(), "Computing");
     if (mLeftImage.empty() || mRightImage.empty()) return;
@@ -98,6 +137,11 @@ void ImageProcessor::ComputeDisparity() {
     mRightImage = cv::Mat();
 }
 
+/**
+ * @brief Callback that gets the camera's calibration infos
+ * 
+ * @param msg camera_info
+ */
 void ImageProcessor::CameraInfoCallbackL(const sensor_msgs::msg::CameraInfo::SharedPtr msg) {
     if (mLeftMapsInitialized) return;
 
@@ -115,6 +159,11 @@ void ImageProcessor::CameraInfoCallbackL(const sensor_msgs::msg::CameraInfo::Sha
     RCLCPP_INFO(this->get_logger(), "LInfo loaded");
 }
 
+/**
+ * @brief Callback that gets the camera's calibration infos
+ * 
+ * @param msg camera_info
+ */
 void ImageProcessor::CameraInfoCallbackR(const sensor_msgs::msg::CameraInfo::SharedPtr msg) {
     if (mRightMapsInitialized) return;
 
