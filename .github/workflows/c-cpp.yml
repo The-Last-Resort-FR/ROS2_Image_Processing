@@ -41,7 +41,10 @@ jobs:
     - name: Build with colcon
       run: |
         source /opt/ros/humble/setup.bash
-        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+        mkdir build
+        cd build
+        cmake . -S ..
+        make
 
     - name: Run tests (if any)
       run: |
