@@ -20,6 +20,10 @@ jobs:
       with:
         required-ros-distributions: humble
 
+    - name: Setup cuda opencv
+      run: |
+        sudo ./installJetpack.sh
+
     - name: Install dependencies
       run: |
         sudo apt update
