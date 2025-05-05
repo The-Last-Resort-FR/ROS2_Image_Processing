@@ -36,7 +36,7 @@ jobs:
           ros-humble-sensor-msgs \
           ros-humble-std-msgs \
           libopencv-dev
-          ls -l /usr/include
+          ls -l /usr/include/opencv4/opencv2/
 
     - name: Build with colcon
       run: |
