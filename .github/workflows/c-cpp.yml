@@ -23,7 +23,7 @@ jobs:
     - name: Setup cuda opencv
       run: |
         ls -la
-        sudo ./installJetpack.sh
+        sudo source installJetpack.sh
 
     - name: Install dependencies
       run: |
