@@ -12,16 +12,18 @@ set(sources
 set(includes
   "include/ImageProcessor.hpp")
 
-# find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(image_transport REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(cv_bridge REQUIRED)
-
-
-add_executable(image_processor ${sources} ${includes})
+  
+  # find dependencies
+  find_package(ament_cmake REQUIRED)
+  find_package(rclcpp REQUIRED)
+  find_package(sensor_msgs REQUIRED)
+  find_package(image_transport REQUIRED)
+  find_package(OpenCV REQUIRED)
+  find_package(cv_bridge REQUIRED)
+  
+  
+  add_executable(image_processor ${sources} ${includes})
+  include_directories(AFTER SYSTEM "/usr/lib")
 
 ament_target_dependencies(image_processor
   rclcpp
