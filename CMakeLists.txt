@@ -23,7 +23,7 @@ set(includes
   
   
   add_executable(image_processor ${sources} ${includes})
-  include_directories(AFTER SYSTEM "/usr/lib")
+  include_directories(AFTER SYSTEM "/usr/include")
 
 ament_target_dependencies(image_processor
   rclcpp
