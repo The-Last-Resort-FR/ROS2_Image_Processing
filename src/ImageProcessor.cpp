@@ -51,8 +51,9 @@ void ImageProcessor::LeftCallback(const sensor_msgs::msg::Image::ConstSharedPtr&
     cv::Mat raw = cv_bridge::toCvCopy(msg, "bgr8")->image;
     cv::Mat rectified;
     cv::remap(raw, rectified, mMap1Left, mMap2Left, cv::INTER_LINEAR);
-    //sensor_msgs::msg::Image::SharedPtr newMsg = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", rectified).toImageMsg();
-    //mLeftPub.publish(newMsg);
+    sensor_msgs::msg::Image::SharedPtr newMsg = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", rectified).toImageMsg();
+    mLeftPub.publish(newMsg);
+    return;
     //mLeftTempImage = ConvertToMat(rectified);
     mLeftImage = rectified.clone();
     ComputeDisparity();
@@ -68,8 +69,9 @@ void ImageProcessor::RightCallback(const sensor_msgs::msg::Image::ConstSharedPtr
     cv::Mat raw = cv_bridge::toCvCopy(msg, "bgr8")->image;
     cv::Mat rectified;
     cv::remap(raw, rectified, mMap1Right, mMap2Right, cv::INTER_LINEAR);
-    //sensor_msgs::msg::Image::SharedPtr newMsg = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", rectified).toImageMsg();
-    //mRightPub.publish(newMsg);
+    sensor_msgs::msg::Image::SharedPtr newMsg = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", rectified).toImageMsg();
+    mRightPub.publish(newMsg);
+    return;
     //mRightTempImage = ConvertToMat(rectified);
     mRightImage = rectified.clone();
     ComputeDisparity();
