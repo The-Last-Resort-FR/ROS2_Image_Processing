@@ -43,6 +43,10 @@ target_compile_features(image_processor PUBLIC c_std_99 cxx_std_17)  # Require C
 install(TARGETS image_processor
   DESTINATION lib/${PROJECT_NAME})
 
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME})
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   set(ament_cmake_copyright_FOUND TRUE)

@@ -18,17 +18,35 @@
 ImageProcessor::ImageProcessor(): Node("image_processor"), mpIt(nullptr), mLeftMapsInitialized(false) {
     using std::placeholders::_1;
     mpIt = new image_transport::ImageTransport((std::shared_ptr<rclcpp::Node>)this);
-    mLeftSub = mpIt->subscribe("/cam_rgb_right", 10, std::bind(&ImageProcessor::LeftCallback, this, _1));
-    mRightSub = mpIt->subscribe("/cam_rgb_left", 10, std::bind(&ImageProcessor::RightCallback, this, _1));
+
+    std::string inTopicR;
+    std::string inTopicL;
+    std::string outTopicR;
+    std::string outTopicL;
+
+    this->declare_parameter<std::string>("in_topic_right", "");
+    this->declare_parameter<std::string>("in_topic_left", "");
+    this->declare_parameter<std::string>("out_topic_right", "");
+    this->declare_parameter<std::string>("out_topic_left", "");
+
+    this->get_parameter("in_topic_right", inTopicR);
+    this->get_parameter("in_topic_left", inTopicL);
+    this->get_parameter("out_topic_right", outTopicR);
+    this->get_parameter("out_topic_left", outTopicL);
+
+    mLeftSub = mpIt->subscribe(inTopicL, 10, std::bind(&ImageProcessor::LeftCallback, this, _1));
+    mRightSub = mpIt->subscribe(inTopicR, 10, std::bind(&ImageProcessor::RightCallback, this, _1));
     mLeftSubInfo = this->create_subscription<sensor_msgs::msg::CameraInfo>(
-        "/cam_rgb_left_info", 10,
+        inTopicL + "_info", 10,
         std::bind(&ImageProcessor::CameraInfoCallbackL, this, std::placeholders::_1));
   
-        mRightSubInfo = this->create_subscription<sensor_msgs::msg::CameraInfo>(
-        "/cam_rgb_right_info", 10,
+    mRightSubInfo = this->create_subscription<sensor_msgs::msg::CameraInfo>(
+        inTopicR + "_info", 10,
         std::bind(&ImageProcessor::CameraInfoCallbackR, this, std::placeholders::_1));
-    mLeftPub = mpIt->advertise("cam_rgb_left_post", QUEUE_SIZE);
-    mRightPub = mpIt->advertise("cam_rgb_right_post", QUEUE_SIZE);
+
+
+    mLeftPub = mpIt->advertise(outTopicL, QUEUE_SIZE);
+    mRightPub = mpIt->advertise(outTopicR, QUEUE_SIZE);
     RCLCPP_INFO(this->get_logger(), "Image processor node started.");
 }
 
